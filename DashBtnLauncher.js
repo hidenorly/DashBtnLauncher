@@ -33,10 +33,10 @@ function getArgvIndex(argv, checkWord)
 function getArgvWithKey(argv, key, remaining=false)
 {
   var index = getArgvIndex(argv, key);
-  if( (index+1) < argv.length ){
+  if( (index!=-1) && (index+1) < argv.length ){
     var result=argv[index+1];
     if(remaining){
-      for(var i=index+1, c=argv.length; i<c; i++){
+      for(var i=index+2, c=argv.length; i<c; i++){
         result = result + " " + argv[i];
       }
     }
@@ -67,18 +67,28 @@ function exec_command(exec_cmd)
  );
 }
 
+function print_usage()
+{
+  console.log("DashBtnLauncher\nCopyright 2017 hidenorly\n-b\tSet target dash button mac address\n-e\tSet external command to execute when dash button is executed");
+}
+
 // parse command line argument
 var argv = process.argv;
 if( (argv.length<=2) || (checkArg(argv, "-h")) ){
-  console.log("DashBtnLauncher\nCopyright 2017 hidenorly\n-b\tSet target dash button mac address\n-e\tSet external command to execute when dash button is executed");
+  print_usage();
 } else {
   var macAddr = getArgvWithKey(argv, "-b");
   var execCmd = getArgvWithKey(argv, "-e", true);
 
-  let dashButton = new DashButton(macAddr);
+  if( !execCmd ){
+    print_usage();
+  } else {
+    var dashButton = new DashButton(macAddr);
 
-  dashButton.addListener(() => {
-    console.log("exec: "+execCmd);
-    exec_command(execCmd);
-  });
+    dashButton.addListener(() => {
+      console.log("exec: "+execCmd);
+      exec_command(execCmd);
+    });
+  }
+
 }
