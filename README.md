@@ -5,7 +5,7 @@ Execute external command when Dash button is pushed.
 # Dependency
 
 ```
-$ sudo apt-get install
+$ sudo apt-get install libpcap-dev
 $ sudo npm install dash-button
 ```
 
