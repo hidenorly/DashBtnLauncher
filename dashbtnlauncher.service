@@ -1,8 +1,8 @@
 [Unit]
-Description = BT Proximity Watcher
+Description = Ble Button Controller with Dash Button
 
 [Service]
-ExecStart = /opt/bt_proximity_monitor.rb -r /var/opt/btproximity/rules.cfg -t /var/opt/btproximity/devices.cfg
+ExecStart = /usr/local/bin/node /opt/DashBtnLauncher/DashBtnLauncher.js -b XX:XX:XX:XX:XX:XX -e echo hoge
 Restart = always
 Type = simple
 
